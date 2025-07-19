@@ -1,54 +1,95 @@
-## Teste para Desenvolvedor PHP/Laravel
+# Sistema de Cadastro de Fornecedores (Teste Técnico)
 
-Bem-vindo ao teste de desenvolvimento para a posição de Desenvolvedor PHP/Laravel. 
+Este projeto é um sistema web básico para gerenciamento de fornecedores, desenvolvido em Laravel. Ele permite cadastrar, listar, visualizar, editar e excluir informações de fornecedores, com campos específicos para Pessoa Física (CPF) e Pessoa Jurídica (CNPJ).
 
-O objetivo deste teste é desenvolver uma API Rest para o cadastro de fornecedores, permitindo a busca por CNPJ ou CPF, utilizando Laravel no backend.
+**Funcionalidades Principais:**
+* Cadastro de Fornecedores (CPF e CNPJ)
+* Busca de dados de CNPJ via BrasilAPI.
+* Busca de dados de CEP via BrasilAPI.
+* Listagem e detalhes dos fornecedores.
+* Edição e exclusão de fornecedores.
+* Validação de CPF e CNPJ.
+* Máscaras de entrada para CPF, CNPJ e Telefone.
+* Paginação e ordenação na listagem.
+* Filtro de busca na listagem.
 
-## Descrição do Projeto
+Para executar este projeto, você precisará ter instalado em sua máquina:
+* **PHP:** Versão 8.2
+* **Composer:**
+* **Node.js e NPM/Yarn:** 
+* **Banco de Dados:** MySQL
 
-### Backend (API Laravel):
+Para configurar e executar o projeto localmente, siga os passos abaixo:
 
-#### CRUD de Fornecedores:
-- **Criar Fornecedor:**
-  - Permita o cadastro de fornecedores usando CNPJ ou CPF, incluindo informações como nome/nome da empresa, contato, endereço, etc.
-  - Valide a integridade e o formato dos dados, como o formato correto de CNPJ/CPF e a obrigatoriedade de campos.
+1.  **Clone o Repositório:**
+    ```bash
+    git clone https://github.com/PedroBiudes/teste-dev-php
+    cd nome-do-seu-repositorio
+    ```
 
-- **Editar Fornecedor:**
-  - Facilite a atualização das informações de fornecedores, mantendo a validação dos dados.
+2.  **Instale as Dependências do Composer:**
+    composer install
 
-- **Excluir Fornecedor:**
-  - Possibilite a remoção segura de fornecedores.
+3.  **Copie o Arquivo de Variáveis de Ambiente:**
+    cp .env.example .env
 
-- **Listar Fornecedores:**
-  - Apresente uma lista paginada de fornecedores, com filtragem e ordenação.
+4.  **Gere a Chave da Aplicação:**
+    php artisan key:generate
 
-#### Migrations:
-- Utilize migrations do Laravel para definir a estrutura do banco de dados, garantindo uma boa organização e facilidade de manutenção.
+5.  **Configure o Banco de Dados:**
+    Abra o arquivo `.env` e configure as credenciais do seu banco de dados.
 
-## Requisitos
+    **Exemplo para MYSQL (recomendado para teste rápido):**
+    Mude as linhas de `DB_CONNECTION` para:
+    ```dotenv
+    DB_CONNECTION=mysql
+    DB_DATABASE=[caminho_completo_para_seu_projeto]/database/database.sqlite
+    # Remova ou comente as outras linhas de DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD
+    ```
+    Crie o arquivo `database.sqlite` dentro da pasta `database`:
+    ```bash
+    touch database/database.sqlite
+    ```
 
-### Backend:
-- Implementar busca por CNPJ na [BrasilAPI](https://brasilapi.com.br/docs#tag/CNPJ/paths/~1cnpj~1v1~1{cnpj}/get) ou qualquer outro endpoint público.
+    **Exemplo para MySQL:**
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=seu_banco_de_dados
+    DB_USERNAME=seu_usuario
+    DB_PASSWORD=sua_senha
+    (Crie o banco de dados `seu_banco_de_dados` manualmente no MySQL)
 
-## Tecnologias a serem utilizadas
-- Framework Laravel (PHP) 9.x ou superior
-- MySQL ou Postgres
+6.  **Execute as Migrações do Banco de Dados:**
+    Este comando criará as tabelas necessárias no seu banco de dados, incluindo a tabela `fornecedores` com todos os campos.
+    ```bash
+    php artisan migrate
+    ```
 
-## Critérios de Avaliação
-- Adesão aos requisitos funcionais e técnicos.
-- Qualidade do código, incluindo organização, padrões de desenvolvimento e segurança.
-- Documentação do projeto, incluindo um README detalhado com instruções de instalação e operação.
+7.  **(Opcional) Popule o Banco de Dados com Dados de Teste:**
+   
+    php artisan db:seed
 
-## Bônus
-- Implementação de Repository Pattern.
-- Implementação de testes automatizados.
-- Dockerização do ambiente de desenvolvimento.
-- Implementação de cache para otimizar o desempenho.
+8.  **Inicie o Servidor de Desenvolvimento Laravel:**
+    ```bash
+    php artisan serve
+    ```
 
-## Entrega
-- Para iniciar o teste, faça um fork deste repositório; Se você apenas clonar o repositório não vai conseguir fazer push.
-- Crie uma branch com o nome que desejar;
-- Altere o arquivo README.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
+9.  **Acesse a Aplicação:**
+    Abra seu navegador e acesse `http://127.0.0.1:8000` (ou a porta indicada pelo comando `php artisan serve`).
 
+    **Estrutura Principal de Diretórios:**
 
+* `app/Http/Controllers`: Lógica de negócio e manipulação de requisições.
+* `app/Models`: Modelos Eloquent para interação com o banco de dados.
+* `app/Rules`: Regras de validação personalizadas (ex: CPF/CNPJ).
+* `database/migrations`: Definição da estrutura do banco de dados.
+* `database/seeders`: Dados de teste para o banco de dados.
+* `resources/views`: Arquivos Blade para a interface do usuário.
+* `public`: Arquivos públicos (CSS, JS, imagens).
+* `routes`: Definição das rotas da aplicação (web.php, api.php).  
+
+**Observações:**
+* A busca de CNPJ e CEP utiliza a [BrasilAPI](https://brasilapi.com.br/), uma API pública e gratuita.
+* As máscaras de CPF/CNPJ/Telefone são aplicadas via JavaScript no frontend.
+* A validação de CPF e CNPJ ocorre tanto no frontend (JavaScript) quanto no backend (Laravel).
